@@ -7,15 +7,11 @@ var logger = require("morgan");
 var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
 
+require("dotenv").config();
 var app = express();
 
-const { fetchService } = require("./services");
-const data = require("./list.json");
-
-data.list.forEach((email) => {
-    console.log("email", email);
-    fetchService.getEmail(email);
-});
+const { scheduleJobs } = require("./tasks/checkmail.job.js");
+scheduleJobs();
 
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
